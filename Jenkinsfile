@@ -15,8 +15,8 @@ pipeline {
     stage('Install Ansible & Python') {
       steps {
         sh '''
-          sudo apt-get update
-          sudo apt-get install -y python3-pip sshpass
+          apt-get update
+          apt-get install -y python3-pip sshpass
           pip3 install --upgrade pip
           pip3 install ansible paramiko
         '''
