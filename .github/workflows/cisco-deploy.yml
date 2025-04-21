@@ -12,10 +12,13 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
-    - name: Install Ansible
+    - name: Install Ansible and Paramiko
       run: |
         sudo apt update
-        sudo apt install -y ansible sshpass
+        sudo apt install -y ansible sshpass python3-pip
+        pip install paramiko
 
     - name: Run Ansible Playbook
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: "False"
       run: ansible-playbook -i inventory.ini playbooks/basic_config.yml
