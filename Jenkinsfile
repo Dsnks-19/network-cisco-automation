@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'williamyeh/ansible:alpine3' // lightweight image with Ansible
+    }
+  }
 
   environment {
     ANSIBLE_HOST_KEY_CHECKING = 'False'
@@ -9,17 +13,6 @@ pipeline {
     stage('Clone GitHub Repo') {
       steps {
         git branch: 'main', url: 'https://github.com/Dsnks-19/network-cisco-automation.git'
-      }
-    }
-
-    stage('Install Ansible & Python') {
-      steps {
-        sh '''
-          apt-get update
-          apt-get install -y python3-pip sshpass
-          pip3 install --upgrade pip
-          pip3 install ansible paramiko
-        '''
       }
     }
 
