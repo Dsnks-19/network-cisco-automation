@@ -12,11 +12,17 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v3
 
-    - name: Install Ansible and Paramiko
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install Ansible, Paramiko, and SSH tools
       run: |
-        sudo apt update
-        sudo apt install -y ansible sshpass python3-pip
-        pip install paramiko
+        python -m pip install --upgrade pip
+        pip install ansible paramiko
+        sudo apt-get update
+        sudo apt-get install -y sshpass
 
     - name: Run Ansible Playbook
       env:
