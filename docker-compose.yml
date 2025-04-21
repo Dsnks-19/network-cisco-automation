@@ -1,17 +1,22 @@
 version: '3'
 
 services:
+  ansible:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ansible-cisco
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: sleep infinity
+
   jenkins:
     image: jenkins/jenkins:lts
     ports:
-      - "8080:8080"
+      - "8085:8080"
     volumes:
       - jenkins_home:/var/jenkins_home
-
-  ansible:
-    image: williamyeh/ansible:alpine3
-    volumes:
-      - .:/ansible
 
 volumes:
   jenkins_home:

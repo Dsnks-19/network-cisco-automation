@@ -12,3 +12,7 @@
         lines:
           - description Managed by Ansible
         parents: interface GigabitEthernet2
+
+    - name: Save Config
+      ios_config:
+        save_when: changed
