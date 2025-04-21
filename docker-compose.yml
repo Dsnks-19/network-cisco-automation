@@ -12,11 +12,15 @@ services:
     command: sleep infinity
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: jenkins-ansible.Dockerfile
+    user: root
     ports:
       - "8085:8080"
     volumes:
       - jenkins_home:/var/jenkins_home
+      - .:/var/jenkins_home/workspace/network-automation
 
 volumes:
   jenkins_home:
