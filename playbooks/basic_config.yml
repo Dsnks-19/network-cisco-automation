@@ -1,0 +1,14 @@
+- name: Configure Cisco Router (DevNet Sandbox)
+  hosts: cisco
+  gather_facts: no
+  tasks:
+    - name: Set Hostname
+      ios_config:
+        lines:
+          - hostname DevNet-Automated
+
+    - name: Configure Interface Description
+      ios_config:
+        lines:
+          - description Managed by Ansible
+        parents: interface GigabitEthernet2
