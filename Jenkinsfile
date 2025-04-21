@@ -1,23 +1,41 @@
 pipeline {
   agent any
 
+  environment {
+    ANSIBLE_HOST_KEY_CHECKING = 'False'
+  }
+
   stages {
-    stage('Checkout') {
+    stage('Clone GitHub Repo') {
       steps {
-        git 'https://github.com/Dsnks-19/network-cisco-automation.git'
+        git branch: 'main', url: 'https://github.com/Dsnks-19/network-cisco-automation.git'
       }
     }
 
-    stage('Install Ansible') {
+    stage('Install Ansible & Python') {
       steps {
-        sh 'sudo apt update && sudo apt install -y ansible sshpass'
+        sh '''
+          sudo apt-get update
+          sudo apt-get install -y python3-pip sshpass
+          pip3 install --upgrade pip
+          pip3 install ansible paramiko
+        '''
       }
     }
 
-    stage('Run Playbook') {
+    stage('Run Ansible Playbook') {
       steps {
         sh 'ansible-playbook -i inventory.ini playbooks/basic_config.yml'
       }
+    }
+  }
+
+  post {
+    failure {
+      echo '❌ Build failed. Please check logs above.'
+    }
+    success {
+      echo '✅ Playbook executed successfully.'
     }
   }
 }
